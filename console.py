@@ -65,11 +65,20 @@ class Console:
                         n = input("Enter responses: ")
                         if n.is_integer() and n >= 1 and n <= 10:
                             settings.n = n
-                            break;
+                            break
                         elif n == "":
                             break
                         print("Please insert a whole number between 1 and 10")
                 case 4:
-                    pass
+                    while(True):
+                        print("Input the max amount of tokens you would like to use")
+                        print("Enter: Previous Menu")
+                        max_tokens = input("Enter tokens: ")
+                        if max_tokens.is_integer():
+                            settings.max_tokens = max_tokens
+                            break
+                        elif n == "":
+                            break
+                        print("Please insert a whole number.")
                 case "":
                     break
