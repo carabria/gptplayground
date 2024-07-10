@@ -1,23 +1,26 @@
 from actions.gpt_response_actions import openAIActions
 
 class Console:
-    def display_menu():
+    def display_menu(self):
         ai_actions = openAIActions()
         tokens_used_this_session = 0
-        settings = {model: "gpt-3.5-turbo", max_tokens: 1020, temperature: 1, n: 1}
+        settings = {"model": "gpt-3.5-turbo", "max_tokens": 1020, "temperature": 1, "n": 1}
         while (True):
-            print("###############\n")
             print("1: Change prompt settings")
             print("2: Create a text prompt")
             print("3: Create an image prompt")
             print("4: Create an audio prompt")
             print("Enter: Go back")
-            choice = input("Enter your choice: ")
-            print("###############\n")
-            
+            try:
+                choice = int(input("Enter your choice: "))
+            except ValueError:
+                if (choice == ""):
+                    continue
+                else:
+                    print("Please enter a whole number.")
             match choice:
                 case 1: 
-                    this.settings_menu()
+                    self.settings_menu()
                     continue
                 case 2:
                     prompt = input("Enter your prompt here: ")

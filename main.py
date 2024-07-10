@@ -8,8 +8,6 @@ class Shazbot:
         openai.api_key = os.getenv("OPENAI_API_KEY")
         token_tracker = tokenTracker()
         console = Console()
-
-        prompt = input("Enter your prompt here: ")
         total_tokens_used = console.display_menu()
         token_tracker.write_tokens_to_file(total_tokens_used)
 
