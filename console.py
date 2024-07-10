@@ -1,5 +1,9 @@
+from actions.gpt_response_actions import openAIActions
+
 class Console:
     def display_menu():
+        ai_actions = openAIActions()
+        tokens_used_this_session = 0
         settings = {model: "gpt-3.5-turbo", max_tokens: 1020, temperature: 1, n: 1}
         while (True):
             print("###############\n")
@@ -18,16 +22,19 @@ class Console:
                 case 2:
                     prompt = input("Enter your prompt here: ")
                     tokens_used = ai_actions.get_chat_gpt_chat_response(settings, prompt)
+                    tokens_used_this_session += tokens_used
                     continue
                 case 3:
                     prompt = input("Enter your prompt here: ")
                     size = input("Enter your image's dimensions here: ")
                     tokens_used = ai_actions.get_chat_gpt_image_response(setings, prompt, size)
+                    tokens_used_this_session += tokens_used
                     continue
                 case 4:
                     pass
                 case "":
                     break
+        return total_used_this_session
 
     def settings_menu():
         while(True):
