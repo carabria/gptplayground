@@ -14,10 +14,16 @@ class Console:
             match choice:
                 case 1: 
                     this.settings_menu()
+                    continue
                 case 2:
-                    pass
+                    prompt = input("Enter your prompt here: ")
+                    tokens_used = ai_actions.get_chat_gpt_chat_response(settings, prompt)
+                    continue
                 case 3:
-                    pass
+                    prompt = input("Enter your prompt here: ")
+                    size = input("Enter your image's dimensions here: ")
+                    tokens_used = ai_actions.get_chat_gpt_image_response(setings, prompt, size)
+                    continue
                 case 4:
                     pass
                 case "":
