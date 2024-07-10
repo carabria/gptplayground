@@ -6,7 +6,8 @@ class openAIActions:
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=1020, 
-            temperature=1
+            temperature=1,
+            n=1
         )
         self.print_chat_gpt_response(response)
 
