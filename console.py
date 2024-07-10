@@ -7,7 +7,7 @@ class Console:
             print("2: Create a text prompt")
             print("3: Create an image prompt")
             print("4: Create an audio prompt")
-            print("5: Exit program")
+            print("Enter: Go back")
             choice = input("Enter your choice: ")
             print("###############\n")
             
@@ -21,7 +21,7 @@ class Console:
                     pass
                 case 4:
                     pass
-                case 5:
+                case "":
                     break
 
     def settings_menu():
@@ -30,7 +30,7 @@ class Console:
             print("2: Temperature (Default: 1)")
             print("3: Amount of responses (Default: 1)")
             print("4: Max tokens (Default: 1020)")
-            print("5: Previous menu")
+            print("Enter: Previous Menu")
             settings_choice = input("Enter your choice ")
 
             match settings_choice:
@@ -38,13 +38,20 @@ class Console:
                     while(True):
                         print("1: gpt-3.5.turbo")
                         print("2: gpt-4")
-                        model = input("Enter which model you would like to use: ")
-                        
+                        model = input("Enter which model you would like to use (enter to go back): ")
+                        match model:
+                            case 1:
+                                settings.model = "gpt-3.5.turbo"
+                                break;
+                            case 2:
+                                settings.model = "gpt-4"
+                            case "":
+                                break;
                 case 2:
                     pass
                 case 3:
                     pass
                 case 4:
                     pass
-                case 5:
+                case "":
                     break
