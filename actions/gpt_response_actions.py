@@ -13,6 +13,15 @@ class openAIActions:
 
         return response.usage.total_tokens
     
+    def get_chat_gpt_image_response(self, settings, image_prompt, image_size):
+        response = openai.images.generate(
+            prompt = image_prompt,
+            size = image_size,
+            n = settings["n"]  
+        )
+        print(response.data[0].url)
+        return 0
+    
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
