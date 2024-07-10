@@ -3,11 +3,11 @@ import openai
 class openAIActions:
     def get_chat_gpt_chat_response(self, settings, prompt):
         response = openai.chat.completions.create(
-            model = settings.model,
+            model = settings["model"],
             messages = [{"role": "user", "content": prompt}],
-            max_tokens = settings.max_tokens, 
-            temperature = settings.temperature,
-            n = settings.n
+            max_tokens = settings["max_tokens"], 
+            temperature = settings["temperature"],
+            n = settings["n"]  
         )
         self.print_chat_gpt_response(response)
 
