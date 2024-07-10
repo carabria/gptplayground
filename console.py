@@ -14,7 +14,6 @@ class Console:
             match choice:
                 case 1: 
                     this.settings_menu()
-                    
                 case 2:
                     pass
                 case 3:
@@ -42,11 +41,11 @@ class Console:
                         match model:
                             case 1:
                                 settings.model = "gpt-3.5.turbo"
-                                break;
+                                break
                             case 2:
                                 settings.model = "gpt-4"
                             case "":
-                                break;
+                                break
                 case 2:
                     while(True):
                         print("Input a number for temperature (from 0.0 to 2.0)")
@@ -57,10 +56,19 @@ class Console:
                             break;
                         elif temperature == "":
                             break
-                        print("Please insert a whole number between 0 to 2")
-                        
+                        print("Please insert a number between 0.0 and 10")
+
                 case 3:
-                    pass
+                    while(True):
+                        print("Input a number for amount of responses (from 1 to 10)")
+                        print("Enter: Previous Menu")
+                        n = input("Enter responses: ")
+                        if n.is_integer() and n >= 1 and n <= 10:
+                            settings.n = n
+                            break;
+                        elif n == "":
+                            break
+                        print("Please insert a whole number between 1 and 10")
                 case 4:
                     pass
                 case "":
