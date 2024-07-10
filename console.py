@@ -29,14 +29,14 @@ class Console:
                 case 2:
                     prompt = input("Enter your prompt here (Press enter to go back): ")
                     if (prompt == ""):
-                        break
+                        continue
                     tokens_used = ai_actions.get_chat_gpt_chat_response(settings, prompt)
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
                     prompt = input("Enter your prompt here (Press enter to go back): ")
                     if (prompt == ""):
-                        break
+                        continue
                     size = input("Enter your image's dimensions here (Press enter to go back): ")
                     if (size == ""):
                         break
