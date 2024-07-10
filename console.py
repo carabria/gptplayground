@@ -27,14 +27,20 @@ class Console:
                     settings = self.settings_menu(settings)
                     continue
                 case 2:
-                    prompt = input("Enter your prompt here: ")
+                    prompt = input("Enter your prompt here (Press enter to go back): ")
+                    if (prompt == ""):
+                        break
                     tokens_used = ai_actions.get_chat_gpt_chat_response(settings, prompt)
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
-                    prompt = input("Enter your prompt here: ")
-                    size = input("Enter your image's dimensions here: ")
-                    tokens_used = ai_actions.get_chat_gpt_image_response(setings, prompt, size)
+                    prompt = input("Enter your prompt here (Press enter to go back): ")
+                    if (prompt == ""):
+                        break
+                    size = input("Enter your image's dimensions here (Press enter to go back): ")
+                    if (size == ""):
+                        break
+                    tokens_used = ai_actions.get_chat_gpt_image_response(settings, prompt, size)
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:
@@ -47,7 +53,7 @@ class Console:
     def settings_menu(self, settings):
         while(True):
             settings_choice = 0
-            print(f"1: Model (Current: {settings["model"]}")
+            print(f"1: Model (Current: {settings["model"]})")
             print(f"2: Temperature (Current: {settings["temperature"]})")
             print(f"3: Amount of responses (Current: {settings["n"]})")
             print(f"4: Max tokens (Current: {settings["max_tokens"]})")
@@ -74,7 +80,7 @@ class Console:
                             model = int(model_input)
                             print("\n")
                         except ValueError:
-                            if (model == ""):
+                            if (model_input == ""):
                                 break
                             else:
                                 print("Please enter a whole number, either 1 or 2")
@@ -99,11 +105,11 @@ class Console:
                             temperature = float(temperature_input)
                             print("\n")
                         except ValueError:
-                            if (temperature == ""):
+                            if (temperature_input == ""):
                                 break
                             else:
                                 print("Please enter a number between 0.0 and 2.0")
-                        if temperature_input.isnumeric and temperature >= 0.0 and temperature <= 2.0:
+                        if temperature >= 0.0 and temperature <= 2.0:
                             settings["temperature"] = temperature
                             break;
                         print("Please insert a number between 0.0 and 2.0")
@@ -137,7 +143,7 @@ class Console:
                             max_tokens = int(max_tokens_input)
                             print("\n")
                         except ValueError:
-                            if (max_tokens == ""):
+                            if (max_tokens_input == ""):
                                 break
                             else:
                                 print("Please insert a whole number")
@@ -152,3 +158,4 @@ class Console:
                 case _:
                     print("Please insert a whole number between 1 and 4")
                     continue
+        return settings
