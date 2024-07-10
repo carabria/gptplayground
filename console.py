@@ -31,7 +31,7 @@ class Console:
             print("3: Amount of responses (Default: 1)")
             print("4: Max tokens (Default: 1020)")
             print("Enter: Previous Menu")
-            settings_choice = input("Enter your choice ")
+            settings_choice = input("Enter your choice: ")
 
             match settings_choice:
                 case 1:
@@ -48,7 +48,17 @@ class Console:
                             case "":
                                 break;
                 case 2:
-                    pass
+                    while(True):
+                        print("Input a number for temperature (from 0.0 to 2.0)")
+                        print("Enter: Previous Menu")
+                        temperature = input("Enter temperature: ")
+                        if temperature.isnumeric and temperature >= 0.0 and temperature <= 2.0:
+                            settings.temperature = temperature
+                            break;
+                        elif temperature == "":
+                            break
+                        print("Please insert a whole number between 0 to 2")
+                        
                 case 3:
                     pass
                 case 4:
