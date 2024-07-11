@@ -58,20 +58,18 @@ class Console:
     def embeddings_menu(self):
         total_tokens_used_this_session = 0
         embeddingList = []
+        embeddingObject = {}
         while(True):
             embedding = ""
-            embedding_input = input("Enter the text you would like to be embedded (Press enter to go back): ")
+            embedding_input = input(f"Enter {2-len(embeddingList)} prompts to compare (Press enter to go back): ")
             if (embedding_input == ""):
                 break
-            embeddingObject = self.ai_actions.get_chat_gpt_embedding_response(embedding_input)
-            embeddingList.append(embeddingObject["embed"]) 
-            total_tokens_used_this_session += embeddingObject["total_tokens"]
-            print(embeddingObject["total_tokens"])
-            if (len(embeddingList) == 2): 
-                print("Two embeddings loaded, checking similarity...")
-                similarity = self.ai_actions.compare_two_embeddings(embeddingList)
-                print(f"Embedding similarity: {similarity}")
-                print("Clearing list...")
+            embeddingList.append(embedding_input)
+            if len(embeddingList) == 2:
+                embeddingObject = self.ai_actions.get_chat_gpt_embedding_response(embeddingList)
+                print(f"Similarity: {embeddingObject["similarity"]}")
+                print(f"Total tokens used: {embeddingObject["total_tokens"]}")
+                total_tokens_used_this_session += embeddingObject["total_tokens"]
                 embeddingList = []
         return total_tokens_used_this_session
 

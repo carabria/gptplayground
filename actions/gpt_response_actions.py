@@ -28,16 +28,18 @@ class openAIActions:
         #my_art.to_terminal()
         return 0
     
-    def get_chat_gpt_embedding_response(self, prompt):
+    def get_chat_gpt_embedding_response(self, promptList):
+        tokens_used = 0
+        embeds = []
         embedding_object = {}
-        response = openai.embeddings.create(input=prompt, model="text-embedding-ada-002")
-        embedding_object["embed"] = response.data[0].embedding 
-        embedding_object["total_tokens"] = response.usage.total_tokens
+        for prompt in promptList:
+            response = openai.embeddings.create(input=prompt, model="text-embedding-ada-002")
+            tokens_used += response.usage.total_tokens
+            embeds.append(response.data[0].embedding)
+        cos_sim = dot(embeds[0], embeds[1]) / (norm(embeds[0]) * norm(embeds[1]))
+        embedding_object["similarity"] = cos_sim
+        embedding_object["total_tokens"] = tokens_used
         return embedding_object
-
-    def compare_two_embeddings(self, promptList):
-        cos_sim = dot(promptList[0], promptList[1]) / (norm(promptList[0]) * norm(promptList[1]))
-        return round(cos_sim, 2)
 
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
