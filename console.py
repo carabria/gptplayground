@@ -1,8 +1,8 @@
 from actions.gpt_response_actions import openAIActions
 
 class Console:
+    ai_actions = openAIActions()
     def display_menu(self):
-        ai_actions = openAIActions()
         tokens_used_this_session = 0
         settings = {"model": "gpt-3.5-turbo", "max_tokens": 1020, "temperature": 1, "n": 1}
         while (True):
@@ -31,7 +31,7 @@ class Console:
                     prompt = input("Enter your prompt here (Press enter to go back): ")
                     if (prompt == ""):
                         continue
-                    tokens_used = ai_actions.get_chat_gpt_chat_response(settings, prompt)
+                    tokens_used = self.ai_actions.get_chat_gpt_chat_response(settings, prompt)
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
@@ -41,7 +41,7 @@ class Console:
                     size = input("Enter your image's dimensions here (Press enter to go back): ")
                     if (size == ""):
                         break
-                    tokens_used = ai_actions.get_chat_gpt_image_response(settings, prompt, size)
+                    tokens_used = self.ai_actions.get_chat_gpt_image_response(settings, prompt, size)
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:
@@ -53,7 +53,7 @@ class Console:
                     print ("Please enter a whole number between 1 and 4")
                     continue
         return tokens_used_this_session
-
+    
     def embeddings_menu(self):
         embeddingList = []
         while(True):
@@ -61,12 +61,12 @@ class Console:
             embedding_input = input("Enter the text you would like to be embedded (Press enter to go back): ")
             if (embedding_input == ""):
                 break
-            embedding = ai_actions.get_chat_gpt_embedding_response(settings, embedding_input)
+            embedding = self.ai_actions.get_chat_gpt_embedding_response(embedding_input)
             embeddingList.append(embedding)
-            if (embeddingList.count == 2): 
+            if (len(embeddingList) == 2): 
                 print("Two embeddings loaded, checking similarity...")
-                similarity = ai_actions.compare_two_embeddings(embeddingList)
-                print(f"Embedding similarity: {similartiy}")
+                similarity = self.ai_actions.compare_two_embeddings(embeddingList)
+                print(f"Embedding similarity: {similarity}")
                 print("Clearing list...")
                 embeddingList = []
 
@@ -93,7 +93,7 @@ class Console:
                 case 1:
                     while(True):
                         model = 0
-                        print("1: gpt-3.5.turbo")
+                        print("1: gpt-3.5-turbo")
                         print("2: gpt-4")
                         model_input = input("Enter which model you would like to use (enter to go back): ")
                         try:
@@ -106,7 +106,7 @@ class Console:
                                 print("Please enter a whole number, either 1 or 2")
                         match model:
                             case 1:
-                                settings["model"] = "gpt-3.5.turbo"
+                                settings["model"] = "gpt-3.5-turbo"
                                 break
                             case 2:
                                 settings["model"] = "gpt-4"

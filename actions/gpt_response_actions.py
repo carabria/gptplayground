@@ -24,12 +24,12 @@ class openAIActions:
         )
         image_url = response.data[0].url
         print(image_url)
-        my_art = AsciiArt.from_image(image_url)
-        my_art.to_terminal()
+        #my_art = AsciiArt.from_image(image_url)
+        #my_art.to_terminal()
         return 0
     
     def get_chat_gpt_embedding_response(self, prompt):
-        embedding = openai.embeddings.create(input=text, model="text-embedding-ada-002").data[0].embedding
+        embedding = openai.embeddings.create(input=prompt, model="text-embedding-ada-002").data[0].embedding
         return embedding
 
     def compare_two_embeddings(self, promptList):
