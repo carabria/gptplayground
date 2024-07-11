@@ -47,7 +47,8 @@ class Console:
                 case 4:
                     pass
                 case 5:
-                    self.embeddings_menu()
+                    tokens_used = self.embeddings_menu()
+                    tokens_used_this_session += tokens_used
                     continue
                 case _:
                     print ("Please enter a whole number between 1 and 4")
@@ -55,20 +56,24 @@ class Console:
         return tokens_used_this_session
     
     def embeddings_menu(self):
+        total_tokens_used_this_session = 0
         embeddingList = []
         while(True):
             embedding = ""
             embedding_input = input("Enter the text you would like to be embedded (Press enter to go back): ")
             if (embedding_input == ""):
                 break
-            embedding = self.ai_actions.get_chat_gpt_embedding_response(embedding_input)
-            embeddingList.append(embedding)
+            embeddingObject = self.ai_actions.get_chat_gpt_embedding_response(embedding_input)
+            embeddingList.append(embeddingObject["embed"]) 
+            total_tokens_used_this_session += embeddingObject["total_tokens"]
+            print(embeddingObject["total_tokens"])
             if (len(embeddingList) == 2): 
                 print("Two embeddings loaded, checking similarity...")
                 similarity = self.ai_actions.compare_two_embeddings(embeddingList)
                 print(f"Embedding similarity: {similarity}")
                 print("Clearing list...")
                 embeddingList = []
+        return total_tokens_used_this_session
 
     def settings_menu(self, settings):
         while(True):

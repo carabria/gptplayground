@@ -29,8 +29,11 @@ class openAIActions:
         return 0
     
     def get_chat_gpt_embedding_response(self, prompt):
-        embedding = openai.embeddings.create(input=prompt, model="text-embedding-ada-002").data[0].embedding
-        return embedding
+        embedding_object = {}
+        response = openai.embeddings.create(input=prompt, model="text-embedding-ada-002")
+        embedding_object["embed"] = response.data[0].embedding 
+        embedding_object["total_tokens"] = response.usage.total_tokens
+        return embedding_object
 
     def compare_two_embeddings(self, promptList):
         cos_sim = dot(promptList[0], promptList[1]) / (norm(promptList[0]) * norm(promptList[1]))
