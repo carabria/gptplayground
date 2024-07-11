@@ -1,4 +1,5 @@
 import openai
+from ascii_magic import AsciiArt
 
 class openAIActions:
     def get_chat_gpt_chat_response(self, settings, prompt):
@@ -19,7 +20,10 @@ class openAIActions:
             size = image_size,
             n = settings["n"]  
         )
-        print(response.data[0].url)
+        image_url = response.data[0].url
+        print(image_url)
+        my_art = AsciiArt.from_image(image_url)
+        my_art.to_terminal()
         return 0
     
     def print_chat_gpt_response(self, response):

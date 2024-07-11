@@ -7,6 +7,7 @@ name = "pypi"
 pandas = "*"
 pillow = "*"
 transformers = "*"
+ascii-magic = "*"
 
 [dev-packages]
 

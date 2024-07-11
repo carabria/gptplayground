@@ -11,6 +11,7 @@ class Console:
             print("2: Create a text prompt")
             print("3: Create an image prompt")
             print("4: Create an audio prompt")
+            print("5: Create embeddings")
             print("Enter: Go back")
             choice_input = input("Enter your choice: ")
             try:
@@ -45,6 +46,20 @@ class Console:
                     continue
                 case 4:
                     pass
+                case 5:
+                    embeddingList = []
+                    while(True):
+                        embedding = ""
+                        embedding_input = input("Enter the text you would like to be embedded (Press enter to go back, press 1 to compare embeddings): ")
+                        match embedding_input:
+                            case "":
+                                break
+                            case 1:
+                                ai_actions.get_chat_gpt_embedding_compare_response(settings, embeddingList)
+                            case _:
+                                embedding = ai_actions.get_chat_gpt_embedding_response(settings, embedding_input)
+                                embeddingList.append(embedding)
+                                
                 case _:
                     print ("Please enter a whole number between 1 and 4")
                     continue
