@@ -34,7 +34,7 @@ class openAIActions:
 
     def compare_two_embeddings(self, promptList):
         cos_sim = dot(promptList[0], promptList[1]) / (norm(promptList[0]) * norm(promptList[1]))
-        return cos_sim
+        return round(cos_sim, 2)
 
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
