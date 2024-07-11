@@ -47,23 +47,28 @@ class Console:
                 case 4:
                     pass
                 case 5:
-                    embeddingList = []
-                    while(True):
-                        embedding = ""
-                        embedding_input = input("Enter the text you would like to be embedded (Press enter to go back, press 1 to compare embeddings): ")
-                        match embedding_input:
-                            case "":
-                                break
-                            case 1:
-                                ai_actions.get_chat_gpt_embedding_compare_response(settings, embeddingList)
-                            case _:
-                                embedding = ai_actions.get_chat_gpt_embedding_response(settings, embedding_input)
-                                embeddingList.append(embedding)
-                                
+                    self.embeddings_menu()
+                    continue
                 case _:
                     print ("Please enter a whole number between 1 and 4")
                     continue
         return tokens_used_this_session
+
+    def embeddings_menu(self):
+        embeddingList = []
+        while(True):
+            embedding = ""
+            embedding_input = input("Enter the text you would like to be embedded (Press enter to go back): ")
+            if (embedding_input == ""):
+                break
+            embedding = ai_actions.get_chat_gpt_embedding_response(settings, embedding_input)
+            embeddingList.append(embedding)
+            if (embeddingList.count == 2): 
+                print("Two embeddings loaded, checking similarity...")
+                similarity = ai_actions.compare_two_embeddings(embeddingList)
+                print(f"Embedding similarity: {similartiy}")
+                print("Clearing list...")
+                embeddingList = []
 
     def settings_menu(self, settings):
         while(True):

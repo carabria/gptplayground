@@ -1,5 +1,7 @@
 import openai
 from ascii_magic import AsciiArt
+from numpy import dot
+from numpy.linalg import norm
 
 class openAIActions:
     def get_chat_gpt_chat_response(self, settings, prompt):
@@ -26,6 +28,14 @@ class openAIActions:
         my_art.to_terminal()
         return 0
     
+    def get_chat_gpt_embedding_response(self, prompt):
+        embedding = openai.embeddings.create(input=text, model="text-embedding-ada-002").data[0].embedding
+        return embedding
+
+    def compare_two_embeddings(self, promptList):
+        cos_sim = dot(promptList[0], promptList[1]) / (norm(promptList[0]) * norm(promptList[1]))
+        return cos_sim
+
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
