@@ -7,7 +7,7 @@ class openAIActions:
     def chat_prompt(self, settings, prompt):
         response = openai.chat.completions.create(
             model = settings["model"],
-            messages = [{"role": "user", "content": prompt}],
+            messages = [{"role": "system", "content": prompt["system"]},{"role": "user", "content": prompt["user"]}],
             max_tokens = settings["max_tokens"], 
             temperature = settings["temperature"],
             n = settings["n"]  
@@ -42,9 +42,12 @@ class openAIActions:
         return embedding_object
     
     def fine_tune(self, file):
-        training_data = client.files.create(file=open(f"{file}.json", "rb"), purpose='fine-tune')
+        training_data = openai.files.create(file=open(f"{file}.json", "rb"), purpose='fine-tune')
         file_id = training_data.id
-        fine_tuned_file = client.fine_tuning.jobs.createA(training_file=file_id, model="gpt-3.5-turbo")
+        fine_tune_job = openai.fine_tuning.jobs.createA(training_file=file_id, model="gpt-3.5-turbo")
+        openai.fine_tuning.jobs.retrieve(fine_tune_job.id).status
+        fine_tuned_model = openai.fine_tuning.jobs.retrieve(fine_tune_job.id).fine_tune_model
+        return fine_tuned_model
 
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")

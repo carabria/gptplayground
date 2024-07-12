@@ -2,6 +2,7 @@ from actions.gpt_response_actions import openAIActions
 
 class Console:
     ai_actions = openAIActions()
+    fine_tuned_model = {}
     def display_menu(self):
         tokens_used_this_session = 0
         settings = {"model": "gpt-3.5-turbo", "max_tokens": 1020, "temperature": 1, "n": 1}
@@ -98,6 +99,7 @@ class Console:
                         model = 0
                         print("1: gpt-3.5-turbo")
                         print("2: gpt-4")
+                        print("3: current fine tuned model")
                         model_input = input("Enter which model you would like to use (enter to go back): ")
                         try:
                             model = int(model_input)
@@ -114,6 +116,8 @@ class Console:
                             case 2:
                                 settings["model"] = "gpt-4"
                                 break
+                            case 3:
+                                settings["model"] = self.fine_tuned_model
                             case _:
                                 print("Please enter a whole number, either 1 or 2")
                                 continue
