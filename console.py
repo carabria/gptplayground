@@ -29,10 +29,16 @@ class Console:
                     settings = self.settings_menu(settings)
                     continue
                 case 2:
-                    prompt = input("Enter your prompt here (Press enter to go back): ")
+                    prompt_dictionary = {}
+                    prompt = input("Enter your system prompt here (Press enter to go back): ")
                     if (prompt == ""):
                         continue
-                    tokens_used = self.ai_actions.chat_prompt(settings, prompt)
+                    prompt_dictionary["system"] = prompt
+                    prompt = input("Enter your user prompt here (Press enter to go back): ")
+                    if (prompt == ""):
+                        continue
+                    prompt_dictionary["user"] = prompt
+                    tokens_used = self.ai_actions.chat_prompt(settings, prompt_dictionary)
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
