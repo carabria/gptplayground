@@ -29,16 +29,7 @@ class Console:
                     settings = self.settings_menu(settings)
                     continue
                 case 2:
-                    prompt_dictionary = {}
-                    prompt = input("Enter your system prompt here (Press enter to go back): ")
-                    if (prompt == ""):
-                        continue
-                    prompt_dictionary["system"] = prompt
-                    prompt = input("Enter your user prompt here (Press enter to go back): ")
-                    if (prompt == ""):
-                        continue
-                    prompt_dictionary["user"] = prompt
-                    tokens_used = self.ai_actions.chat_prompt(settings, prompt_dictionary)
+                    tokens_used = self.text_prompt_menu()
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
@@ -192,3 +183,19 @@ class Console:
                     print("Please insert a whole number between 1 and 4")
                     continue
         return settings
+    
+    def text_prompt_menu(self, settings):
+        prompt_dictionary = {}
+        prompt = input("Enter your system prompt here (Press enter to go back, enter 'default' for default): ")
+        if (prompt == ""):
+            continue
+        if (prompt.lower().strip() == "default"):
+            prompt_dictionary["system"] = "You are a helpful assistant."
+        else:
+            prompt_dictionary["system"] = prompt
+        prompt = input("Enter your user prompt here (Press enter to go back): ")
+        if (prompt == ""):
+            continue
+        prompt_dictionary["user"] = prompt
+        tokens_used = self.ai_actions.chat_prompt(settings, prompt_dictionary)
+        return tokens_used
