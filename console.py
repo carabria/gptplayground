@@ -38,10 +38,10 @@ class Console:
                     prompt = input("Enter your prompt here (Press enter to go back): ")
                     if (prompt == ""):
                         continue
-                    size = input("Enter your image's dimensions here (Press enter to go back): ")
-                    if (size == ""):
-                        break
-                    tokens_used = self.ai_actions.get_chat_gpt_image_response(settings, prompt, size)
+                    #size = input("Enter your image's dimensions here (Press enter to go back): ")
+                    #if (size == ""):
+                        #break
+                    tokens_used = self.ai_actions.get_chat_gpt_image_response(settings, prompt)
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:

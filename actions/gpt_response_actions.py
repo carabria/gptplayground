@@ -16,17 +16,17 @@ class openAIActions:
 
         return response.usage.total_tokens
     
-    def get_chat_gpt_image_response(self, settings, image_prompt, image_size):
+    def get_chat_gpt_image_response(self, settings, image_prompt):
         response = openai.images.generate(
             prompt = image_prompt,
-            size = image_size,
+            size = "1024x1024",
             n = settings["n"]  
         )
         image_url = response.data[0].url
         print(image_url)
         #my_art = AsciiArt.from_image(image_url)
         #my_art.to_terminal()
-        return 0
+        return 600 #approximation of tokens based on gpt-3.5-turbo model. 1024x1024 resolution costs $0.06.
     
     def get_chat_gpt_embedding_response(self, promptList):
         tokens_used = 0
