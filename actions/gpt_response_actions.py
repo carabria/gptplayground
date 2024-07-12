@@ -4,7 +4,7 @@ from numpy import dot
 from numpy.linalg import norm
 
 class openAIActions:
-    def get_chat_gpt_chat_response(self, settings, prompt):
+    def chat_prompt(self, settings, prompt):
         response = openai.chat.completions.create(
             model = settings["model"],
             messages = [{"role": "user", "content": prompt}],
@@ -16,7 +16,7 @@ class openAIActions:
 
         return response.usage.total_tokens
     
-    def get_chat_gpt_image_response(self, settings, image_prompt):
+    def image_prompt(self, settings, image_prompt):
         response = openai.images.generate(
             prompt = image_prompt,
             size = "1024x1024",
@@ -28,7 +28,7 @@ class openAIActions:
         #my_art.to_terminal()
         return 600 #approximation of tokens based on gpt-3.5-turbo model. 1024x1024 resolution costs $0.06.
     
-    def get_chat_gpt_embedding_response(self, promptList):
+    def embed_prompt(self, promptList):
         tokens_used = 0
         embeds = []
         embedding_object = {}
@@ -40,6 +40,11 @@ class openAIActions:
         embedding_object["similarity"] = cos_sim
         embedding_object["total_tokens"] = tokens_used
         return embedding_object
+    
+    def fine_tune(self, file):
+        training_data = client.files.create(file=open(f"{file}.json", "rb"), purpose='fine-tune')
+        file_id = training_data.id
+        fine_tuned_file = client.fine_tuning.jobs.createA(training_file=file_id, model="gpt-3.5-turbo")
 
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")

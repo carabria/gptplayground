@@ -12,7 +12,7 @@ class Console:
             print("3: Create an image prompt")
             print("4: Create an audio prompt")
             print("5: Create embeddings")
-            print("Enter: Go back")
+            print("Enter: Exit program")
             choice_input = input("Enter your choice: ")
             try:
                 choice = int(choice_input)
@@ -31,7 +31,7 @@ class Console:
                     prompt = input("Enter your prompt here (Press enter to go back): ")
                     if (prompt == ""):
                         continue
-                    tokens_used = self.ai_actions.get_chat_gpt_chat_response(settings, prompt)
+                    tokens_used = self.ai_actions.chat_prompt(settings, prompt)
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
@@ -41,7 +41,7 @@ class Console:
                     #size = input("Enter your image's dimensions here (Press enter to go back): ")
                     #if (size == ""):
                         #break
-                    tokens_used = self.ai_actions.get_chat_gpt_image_response(settings, prompt)
+                    tokens_used = self.ai_actions.image_prompt(settings, prompt)
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:
@@ -66,7 +66,7 @@ class Console:
                 break
             embeddingList.append(embedding_input)
             if len(embeddingList) == 2:
-                embeddingObject = self.ai_actions.get_chat_gpt_embedding_response(embeddingList)
+                embeddingObject = self.ai_actions.embed_prompt(embeddingList)
                 print(f"Similarity: {embeddingObject["similarity"]}")
                 print(f"Total tokens used: {embeddingObject["total_tokens"]}")
                 total_tokens_used_this_session += embeddingObject["total_tokens"]
