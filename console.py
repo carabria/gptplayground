@@ -105,7 +105,8 @@ class Console:
                         model = 0
                         print("1: gpt-3.5-turbo")
                         print("2: gpt-4")
-                        print("3: current fine tuned model")
+                        print("3: Most recent fine tuned model")
+                        print("4: Other fine tunbed model")
                         model_input = input("Enter which model you would like to use (enter to go back): ")
                         try:
                             model = int(model_input)
@@ -124,6 +125,8 @@ class Console:
                                 break
                             case 3:
                                 settings["model"] = self.fine_tuned_model
+                            case 4:
+                                settings["model"] = input("Please enter a model: ")
                             case _:
                                 print("Please enter a whole number, either 1 or 2")
                                 continue
