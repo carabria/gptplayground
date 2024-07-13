@@ -50,13 +50,12 @@ class Console:
                     tokens_used_this_session += tokens_used
                     continue
                 case 6:
-                    training_data = input("Enter the path to your training data in JSON format (Press enter to go back): ")
+                    training_data = input("Enter the path to your training data (Press enter to go back): ")
                     if (training_data == ""):
                         break
-                    training_data == training_data.lower().strip()
-                    if training_data.endswith(".json") == False:
-                        training_data = f"{training_data}.json"
-                    openAIActions.fine_tune(training_data)
+                    training_data = training_data.lower().strip()
+                    trained_model = self.ai_actions.fine_tune(training_data)
+                    settings["model"] = trained_model
                     
                 case _:
                     print ("Please enter a whole number between 1 and 4")

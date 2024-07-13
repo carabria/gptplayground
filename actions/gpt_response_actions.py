@@ -2,6 +2,7 @@ import openai
 from ascii_magic import AsciiArt
 from numpy import dot
 from numpy.linalg import norm
+import time
 
 class openAIActions:
     def chat_prompt(self, settings, prompt):
@@ -46,21 +47,28 @@ class openAIActions:
             embeds.append(response.data[0].embedding)
         cos_sim = dot(embeds[0], embeds[1]) / (norm(embeds[0]) * norm(embeds[1]))
         embedding_object["similarity"] = cos_sim
-        embedding_object["total_tokens"] = tokens_used
+        embedding_object["total_tokens"] = tokens_used  
         return embedding_object
     
     def fine_tune(self, file):
         training_data = openai.files.create(file=open(f"{file}.json", "rb"), purpose='fine-tune')
         file_id = training_data.id
-        fine_tune_job = openai.fine_tuning.jobs.createA(training_file=file_id, model="gpt-3.5-turbo")
-        openai.fine_tuning.jobs.retrieve(fine_tune_job.id).status
-        fine_tuned_model = openai.fine_tuning.jobs.retrieve(fine_tune_job.id).fine_tune_model
+        fine_tune_job = openai.fine_tuning.jobs.create(training_file=file_id, model="gpt-3.5-turbo")
+        seconds_elapsed = 0
+        while openai.fine_tuning.jobs.retrieve(fine_tune_job.id).fine_tuned_model == None:
+            print(f"Fine tuning in progress, current seconds elapsed: {seconds_elapsed}...")
+            seconds_elapsed += 5
+            time.sleep(5)
+        fine_tuned_model = openai.fine_tuning.jobs.retrieve(fine_tune_job.id).fine_tuned_model
+        with open("../bookkeeping/personal_models.txt", 'a') as file:
+            file.write(str(fine_tuned_model))
         return fine_tuned_model
 
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
-        print(f"ChatGPT's response: {response.choices[0].message.content}")
+        for i in response.choices[i].message.content:
+            print(f"ChatGPT's response: {response.choices[0].message.content}")
         print(f"Prompt tokens used: {response.usage.prompt_tokens}")
         print(f"Completion tokens used: {response.usage.completion_tokens}")
         print(f"Total tokens used: {response.usage.total_tokens}")
