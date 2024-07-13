@@ -13,6 +13,7 @@ class Console:
             print("3: Create an image prompt")
             print("4: Create an audio prompt")
             print("5: Create embeddings")
+            print("6: Fine tune model")
             print("Enter: Exit program")
             choice_input = input("Enter your choice: ")
             try:
@@ -29,7 +30,7 @@ class Console:
                     settings = self.settings_menu(settings)
                     continue
                 case 2:
-                    tokens_used = self.text_prompt_menu()
+                    tokens_used = self.text_prompt_menu(settings)
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
@@ -48,6 +49,15 @@ class Console:
                     tokens_used = self.embeddings_menu()
                     tokens_used_this_session += tokens_used
                     continue
+                case 6:
+                    training_data = input("Enter the path to your training data in JSON format (Press enter to go back): ")
+                    if (training_data == ""):
+                        break
+                    training_data == training_data.lower().strip()
+                    if training_data.endswith(".json") == False:
+                        training_data = f"{training_data}.json"
+                    openAIActions.fine_tune(training_data)
+                    
                 case _:
                     print ("Please enter a whole number between 1 and 4")
                     continue
@@ -188,14 +198,14 @@ class Console:
         prompt_dictionary = {}
         prompt = input("Enter your system prompt here (Press enter to go back, enter 'default' for default): ")
         if (prompt == ""):
-            continue
+            return 0
         if (prompt.lower().strip() == "default"):
-            prompt_dictionary["system"] = "You are a helpful assistant."
+            prompt_dictionary["system"] = "Default"
         else:
             prompt_dictionary["system"] = prompt
         prompt = input("Enter your user prompt here (Press enter to go back): ")
         if (prompt == ""):
-            continue
+            return 0
         prompt_dictionary["user"] = prompt
         tokens_used = self.ai_actions.chat_prompt(settings, prompt_dictionary)
         return tokens_used

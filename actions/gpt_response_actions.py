@@ -5,15 +5,23 @@ from numpy.linalg import norm
 
 class openAIActions:
     def chat_prompt(self, settings, prompt):
-        response = openai.chat.completions.create(
-            model = settings["model"],
-            messages = [{"role": "system", "content": prompt["system"]},{"role": "user", "content": prompt["user"]}],
-            max_tokens = settings["max_tokens"], 
-            temperature = settings["temperature"],
-            n = settings["n"]  
+        if prompt["system"] == "Default":
+            response = openai.chat.completions.create(
+                model = settings["model"],
+                messages = [{"role": "user", "content": prompt["user"]}],
+                max_tokens = settings["max_tokens"], 
+                temperature = settings["temperature"],
+                n = settings["n"]  
         )
+        else:
+            response = openai.chat.completions.create(
+                model = settings["model"],
+                messages = [{"role": "system", "content": prompt["system"]},{"role": "user", "content": prompt["user"]}],
+                max_tokens = settings["max_tokens"], 
+                temperature = settings["temperature"],
+                n = settings["n"]  
+            )
         self.print_chat_gpt_response(response)
-
         return response.usage.total_tokens
     
     def image_prompt(self, settings, image_prompt):
@@ -53,4 +61,6 @@ class openAIActions:
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
         print(f"ChatGPT's response: {response.choices[0].message.content}")
-        print(f"Tokens used: {response.usage.total_tokens}")
+        print(f"Prompt tokens used: {response.usage.prompt_tokens}")
+        print(f"Completion tokens used: {response.usage.completion_tokens}")
+        print(f"Total tokens used: {response.usage.total_tokens}")
