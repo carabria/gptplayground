@@ -64,11 +64,20 @@ class openAIActions:
             file.write(str(fine_tuned_model))
         return fine_tuned_model
 
+    def speech_to_text(self, file):
+        audio_file = open(file, "rb")
+        audio_text = openai.audio.transcriptions.create(
+            file=audio_file,
+            model="whisper-1",)
+        #$.0006/minute cost
+        print(audio_text.text)
+        
+
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
-        for i in response.choices[i].message.content:
-            print(f"ChatGPT's response: {response.choices[0].message.content}")
+        #for i in response.choices[i].message.content:
+        print(f"ChatGPT's response: {response.choices[0].message.content}")
         print(f"Prompt tokens used: {response.usage.prompt_tokens}")
         print(f"Completion tokens used: {response.usage.completion_tokens}")
         print(f"Total tokens used: {response.usage.total_tokens}")

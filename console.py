@@ -44,7 +44,11 @@ class Console:
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:
-                    pass
+                    audio_file = input("Enter the path to your audio file, including the extension (Press enter to go back): ")
+                    if (audio_file == ""):
+                        break
+                    audio_file = audio_file.lower().strip()
+                    self.ai_actions.speech_to_text(audio_file)
                 case 5:
                     tokens_used = self.embeddings_menu()
                     tokens_used_this_session += tokens_used
