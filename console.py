@@ -215,14 +215,19 @@ class Console:
         return tokens_used
     
     def audio_menu(self):
+        settings_choice = None
         while (True):
             print("1: Speech to text")
             print("2: Text to speech")
             print("Enter: Go back")
-            audio_input = int(input("Enter your choice (Press enter to go back): "))
-            if (audio_input == ""):
-                break
-            match audio_input:
+            audio_input = input("Enter your choice (Press enter to go back): ")
+            try:
+                settings_choice = int(audio_input)
+                print("\n")
+            except ValueError:
+                if (audio_input == ""):
+                    break
+            match settings_choice:
                 case 1:
                     audio_file = input("Enter the path to your audio file, including the extension (Press enter to go back): ")
                     if (audio_file == ""):
@@ -231,9 +236,9 @@ class Console:
                     self.ai_actions.speech_to_text(audio_file)
                 case 2:
                     prompt = input("Insert your prompt (Press enter to go back): ")
-                    if (prompt ==""):
+                    if (prompt == ""):
                         break
-                    file_path = self.ai_actions.text_to_speech()
+                    file_path = self.ai_actions.text_to_speech(prompt)
                     print(f"Path of new file: {file_path}")
                     continue
                 case _:
