@@ -3,6 +3,7 @@ from ascii_magic import AsciiArt
 from numpy import dot
 from numpy.linalg import norm
 import time
+from pathlib import Path
 
 class openAIActions:
     def chat_prompt(self, settings, prompt):
@@ -71,6 +72,16 @@ class openAIActions:
             model="whisper-1",)
         #$.0006/minute cost
         print(audio_text.text)
+
+    def text_to_speech(self, text):
+        speech_file_path = Path(__file__).parent / "speech.mp3"
+        response = openai.audio.speech.create(
+            model="tts-1",
+            voice="onyx",
+            input=text
+        )
+        response.stream_to_file(speech_file_path)
+        return speech_file_path
         
 
     def print_chat_gpt_response(self, response):

@@ -44,11 +44,9 @@ class Console:
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:
-                    audio_file = input("Enter the path to your audio file, including the extension (Press enter to go back): ")
-                    if (audio_file == ""):
-                        break
-                    audio_file = audio_file.lower().strip()
-                    self.ai_actions.speech_to_text(audio_file)
+                    tokens_used = self.audio_menu()
+                    tokens_used_this_session += tokens_used
+                    continue
                 case 5:
                     tokens_used = self.embeddings_menu()
                     tokens_used_this_session += tokens_used
@@ -215,3 +213,28 @@ class Console:
         prompt_dictionary["user"] = prompt
         tokens_used = self.ai_actions.chat_prompt(settings, prompt_dictionary)
         return tokens_used
+    
+    def audio_menu(self):
+        while (True):
+            print("1: Speech to text")
+            print("2: Text to speech")
+            print("Enter: Go back")
+            audio_input = int(input("Enter your choice (Press enter to go back): "))
+            if (audio_input == ""):
+                break
+            match audio_input:
+                case 1:
+                    audio_file = input("Enter the path to your audio file, including the extension (Press enter to go back): ")
+                    if (audio_file == ""):
+                        break
+                    audio_file = audio_file.lower().strip()
+                    self.ai_actions.speech_to_text(audio_file)
+                case 2:
+                    prompt = input("Insert your prompt (Press enter to go back): ")
+                    if (prompt ==""):
+                        break
+                    file_path = self.ai_actions.text_to_speech()
+                    print(f"Path of new file: {file_path}")
+                    continue
+                case _:
+                    print("Please enter 1, 2, or press the ENTER key.")
