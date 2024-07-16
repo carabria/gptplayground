@@ -44,8 +44,7 @@ class Console:
                     tokens_used_this_session += tokens_used
                     continue
                 case 4:
-                    tokens_used = self.audio_menu()
-                    tokens_used_this_session += tokens_used
+                    self.audio_menu()
                     continue
                 case 5:
                     tokens_used = self.embeddings_menu()
@@ -215,10 +214,12 @@ class Console:
         return tokens_used
     
     def audio_menu(self):
+        model = "onyx"
         settings_choice = None
         while (True):
             print("1: Speech to text")
             print("2: Text to speech")
+            print("3: Change voice model")
             print("Enter: Go back")
             audio_input = input("Enter your choice (Press enter to go back): ")
             try:
@@ -238,8 +239,25 @@ class Console:
                     prompt = input("Insert your prompt (Press enter to go back): ")
                     if (prompt == ""):
                         break
-                    file_path = self.ai_actions.text_to_speech(prompt)
+                    file_path = self.ai_actions.text_to_speech(prompt, model)
                     print(f"Path of new file: {file_path}")
                     continue
+                case 3:
+                    voice_options = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
+                    i = 1
+                    for voice in voice_options:
+                        print(f"{i}: {voice}")
+                        i += 1
+                    while (True):
+                        try:
+                            model = int(input("Input a number for which model you would like to use (Press enter to go back): "))
+                            model = voice_options[model-1]
+                        except(ValueError, IndexError):
+                            if (model == ""):
+                                break
+                            print("Please enter a whole number between 1 and 6.")
+                            continue
+                        break
+                    pass
                 case _:
                     print("Please enter 1, 2, or press the ENTER key.")
