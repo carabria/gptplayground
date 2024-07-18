@@ -256,7 +256,7 @@ class Console:
                     print("Please enter 1, 2, or press the ENTER key.")
     
     def image_menu(self, settings):
-        image_choice
+        image_choice = None
         while (True):
             print("1: Generate an image with a prompt")
             print("2: Read an image URL and ask the GPT about it")
