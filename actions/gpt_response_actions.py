@@ -4,6 +4,7 @@ from numpy import dot
 from numpy.linalg import norm
 import time
 from pathlib import Path
+import base64
 
 class openAIActions:
     def chat_prompt(self, settings, prompt):
@@ -106,10 +107,12 @@ class openAIActions:
         return response.usage.total_tokens
     
     def print_chat_gpt_response(self, response):
+        i = 0
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
-        #for i in response.choices[i].message.content:
-        print(f"ChatGPT's response: {response.choices[0].message.content}")
+        while i < len(response.choices):
+            print(f"ChatGPT's response: {response.choices[i].message.content}")
+            i += 1
         print(f"Prompt tokens used: {response.usage.prompt_tokens}")
         print(f"Completion tokens used: {response.usage.completion_tokens}")
         print(f"Total tokens used: {response.usage.total_tokens}")
