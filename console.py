@@ -34,14 +34,7 @@ class Console:
                     tokens_used_this_session += tokens_used
                     continue
                 case 3:
-                    prompt = input("Enter your prompt here (Press enter to go back): ")
-                    if (prompt == ""):
-                        continue
-                    #size = input("Enter your image's dimensions here (Press enter to go back): ")
-                    #if (size == ""):
-                        #break
-                    tokens_used = self.ai_actions.image_prompt(settings, prompt)
-                    tokens_used_this_session += tokens_used
+                    self.image_menu(settings)
                     continue
                 case 4:
                     self.audio_menu()
@@ -261,3 +254,39 @@ class Console:
                     pass
                 case _:
                     print("Please enter 1, 2, or press the ENTER key.")
+    
+    def image_menu(self, settings):
+        image_choice
+        while (True):
+            print("1: Generate an image with a prompt")
+            print("2: Read an image URL and ask the GPT about it")
+            print("Enter: go back")
+            image_input = input("Enter your prompt here (Press enter to go back): ")
+            try:
+                image_choice = int(image_input)
+                print("\n")
+            except ValueError:
+                if (image_input == ""):
+                    break
+                else:
+                    print("Please enter 1, 2, or press the ENTER key.")
+            match image_choice:
+                case 1:
+                    prompt = input("Enter your prompt here (Press enter to go back): ")
+                    if (prompt == ""):
+                        break
+                    #size = input("Enter your image's dimensions here (Press enter to go back): ")
+                    #if (size == ""):
+                        #break
+                    tokens_used = self.ai_actions.image_prompt(settings, prompt)
+                    tokens_used_this_session += tokens_used
+                    continue
+                case 2:
+                    while(True):
+                        url = input("Enter a URL link to an image here (Press enter to go back): ")
+                        if (url == ""):
+                            break
+                        prompt = input("Enter your prompt here (Press enter to go back): ")
+                        if (prompt == ""):
+                            break
+                        self.ai_actions.image_reading(prompt, url, settings)

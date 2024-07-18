@@ -80,7 +80,7 @@ class openAIActions:
             voice=voice_model,
             input=text
         )
-        response.stream_to_file(speech_file_path)
+        response.stream_to_file(speech_file_path)        
         return speech_file_path
         
     def image_reading(self, prompt, image_url, settings):
