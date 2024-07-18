@@ -83,7 +83,28 @@ class openAIActions:
         response.stream_to_file(speech_file_path)
         return speech_file_path
         
-
+    def image_reading(self, prompt, image_url, settings):
+        response = openai.chat.completions.create(
+        model=settings["model"],
+        messages=[
+            {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": prompt},
+                {
+                "type": "image_url",
+                "image_url": {
+                    "url": image_url,
+                },
+                },
+            ],
+            }
+        ],
+        max_tokens=settings["max_tokens"],
+        )
+        print(response.choices[0])
+        return response.usage.total_tokens
+    
     def print_chat_gpt_response(self, response):
         print(f"Model: {response.model}")
         print(f"Finish reason: {response.choices[0].finish_reason}")
