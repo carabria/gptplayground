@@ -278,8 +278,7 @@ class Console:
                     #size = input("Enter your image's dimensions here (Press enter to go back): ")
                     #if (size == ""):
                         #break
-                    tokens_used = self.ai_actions.image_prompt(settings, prompt)
-                    tokens_used_this_session += tokens_used
+                    self.ai_actions.image_prompt(settings, prompt)
                     continue
                 case 2:
                     while(True):
@@ -290,3 +289,6 @@ class Console:
                         if (prompt == ""):
                             break
                         self.ai_actions.image_reading(prompt, url, settings)
+                case _:
+                    break
+        return 0
